@@ -1,4 +1,3 @@
-[English](./README_EN.md) | [简体中文](./README.md)
 # KuiklySqlite 
 
 **KuiklySqlite** 是一个轻量级、高性能的 Kotlin Multiplatform (KMP) ORM 框架，专为kuiklyUI框架设计。目前支持
@@ -28,17 +27,21 @@
 
 ### 1. 配置
 
-在 `build.gradle.kts` 中添加 KSP 插件和依赖。
+添加 KSP 插件和依赖。
 
-**根目录 `build.gradle.kts`**:
+**根目录 `settings.gradle.kts/settings.ohos.gradle.kts`**:
 
 ```kotlin
-plugins {
-  
+pluginManagement {
+    includeBuild("kuiklySqlite-compiler")
 }
+include(":kuiklySqlite")
+//ohos文件解开注释
+//project(":kuiklySqlite").buildFileName = buildFileName
+includeBuild("kuiklySqlite-compiler")
 ```
 
-**模块 `build.gradle.kts`**:
+**模块 `build.gradle.kts/build.ohos.gradle.kts`**:
 
 ```kotlin
 plugins {
@@ -53,7 +56,7 @@ kuiklysqlite {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("net.shantu:kuiklySqlite:1.0.0")
+            implementation(project(":kuiklySqlite"))
         }
     }
 }
