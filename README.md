@@ -171,21 +171,10 @@ val alice = userDao.selectById(id)
 
 ```kotlin
 // 自动在后台线程执行
-val id = userDao.insertSuspend(user)
-userDao.updateSuspend(user.copy(age = 21))
+val id = userDao.insertAsync(user)
+userDao.updateAsync(user.copy(age = 21))
 ```
 
-**响应式 (Flow)**:
-
-```kotlin
-// 在 ViewModel 或 UI 层使用
-val usersFlow: Flow<List<User>> = userDao.selectAllFlow()
-
-usersFlow.collect { users ->
-    // 每当 't_user' 表发生变化时，此代码块都会被触发
-    updateUI(users)
-}
-```
 
 ## 📚 注解参考
 
