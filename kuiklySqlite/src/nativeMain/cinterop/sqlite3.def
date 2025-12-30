@@ -1,0 +1,19 @@
+# 1. 指定C头文件（必填，指向我们的sqlite3.h）
+headers = sqlite3.h
+# 2. 指定C源码路径（可选，Kotlin/Native会自动编译这些C文件）
+# 注意：路径是相对于.def文件的相对路径
+sources = sqlite3.c
+package = net.shantu.kuiklysqlite
+
+# 3. 编译选项（跨平台兼容，可选但推荐）
+# -std=c99：使用C99标准（跨平台兼容）
+# -fPIC：生成位置无关代码（动态库必需，静态库也推荐）
+compilerOpts = -std=c99 -fPIC
+
+---
+// 【新增】关键点：直接 include 实现文件(.c)，而不仅仅是头文件
+// 因为我们在 gradle 里配置了 includeDirs，所以直接写文件名即可
+#include "sqlite3.c"
+
+// 如果你有多个 .c 文件，都在这里 include 进来
+// #include "other_utils.c"
