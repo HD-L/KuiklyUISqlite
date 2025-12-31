@@ -30,7 +30,9 @@ Kotlin-js-store
 **/*.xcuserdatad/**
 **/xcshareddata/
 **/IDEWorkspaceChecks.plist
-.kotlin
+.kotlin/
+.run/
+.trae/
 ## Other
 *.moved-aside
 *.xccheckout
