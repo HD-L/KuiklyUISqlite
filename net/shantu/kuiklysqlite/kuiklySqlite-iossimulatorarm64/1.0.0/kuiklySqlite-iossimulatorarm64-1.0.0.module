@@ -1,0 +1,113 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../kuiklySqlite/1.0.0/kuiklySqlite-1.0.0.module",
+    "group": "net.shantu.kuiklysqlite",
+    "module": "kuiklySqlite",
+    "version": "1.0.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosSimulatorArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.0.21-KBA-010"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kuiklySqlite.klib",
+          "url": "kuiklySqlite-iossimulatorarm64-1.0.0.klib",
+          "size": 64648,
+          "sha512": "b9a07eb6be72f06a646128835d05f9ea020cbb2a00cd9c9733799293e6e85a407171a2c38a069560b2679097cac49b72bdce8f61b7a5bb5781bb2e61eace783f",
+          "sha256": "35d8ee71bafdcd35889c9966be04c8372fbb9327a576aa3d8cebb675b58dc638",
+          "sha1": "8ce82100a90d7ed4a91f9b30ab6e44e5a10d50f3",
+          "md5": "04e96c61260e9164630b697208fbf19c"
+        },
+        {
+          "name": "kuiklySqlite-cinterop-sqlite3.klib",
+          "url": "kuiklySqlite-iossimulatorarm64-1.0.0-cinterop-sqlite3.klib",
+          "size": 3768841,
+          "sha512": "282ca6459b230a721caf2af921da4e7f6de493a2be8f77208b0d332d8cd945e60b834398906903767e1ab9c4ccc69299059425929403627c4b57a083e6c0df71",
+          "sha256": "319cf8188aefd11d445383d1ae150247f00187ec929df18770bb1a35edc430f3",
+          "sha1": "6a5e23fa203eac53d416f2f042d35f64538d59d5",
+          "md5": "6eafab44455ff6e5443c9852593bb4d0"
+        }
+      ]
+    },
+    {
+      "name": "iosSimulatorArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "files": [
+        {
+          "name": "kuiklySqlite-iossimulatorarm64-1.0.0-sources.jar",
+          "url": "kuiklySqlite-iossimulatorarm64-1.0.0-sources.jar",
+          "size": 18313,
+          "sha512": "851b14b52fe25ca2cf4a763de6f69466b8ff5f4b15e9f3994e13c680a0720396d780204578a7d0411d2126d8ff248eee0ae04ec1622ef471f00ff6d7a39ac3ae",
+          "sha256": "1376dca0247187f961c90c75e5c93bd734c9b54998b7a08985cc7db06810543d",
+          "sha1": "ebd969afd1d0705ecb89320f10ba4e8eecded489",
+          "md5": "5613daabe12e311d26b79de3fe1c61d0"
+        }
+      ]
+    },
+    {
+      "name": "iosSimulatorArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.0.21-KBA-010"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kuiklySqlite-iossimulatorarm64-1.0.0-metadata.jar",
+          "url": "kuiklySqlite-iossimulatorarm64-1.0.0-metadata.jar",
+          "size": 261,
+          "sha512": "c2f74e527faf0f0855814b9a0e4d5767802b9bcf14ac0b7f52621512a72afe564b89b365af89784604e1c0dfde74309b1672ec288662c9f29af1667388537b6f",
+          "sha256": "bbf574512bc57942f151a14295c9f8112f23bbe27ae5b9d3ff5e7f0579ebf365",
+          "sha1": "0be98e890c9aa683c31b43155491f40aa3c8c609",
+          "md5": "0bbb6420456d64053bcbc66328253ddf"
+        }
+      ]
+    }
+  ]
+}
