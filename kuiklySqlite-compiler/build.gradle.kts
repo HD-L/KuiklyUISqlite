@@ -12,6 +12,13 @@ repositories {
     google()
     gradlePluginPortal()
 }
+publishing {
+    repositories {
+        maven {
+            url = uri("../maven-repo") // 本地输出目录
+        }
+    }
+}
 
 dependencies {
     // --- 原有的 KSP 依赖 ---
@@ -60,10 +67,12 @@ val generateBuildConfig by tasks.registering {
 
         // 目标文件：必须和你的 Plugin 类在同一个包下，或者你指定的任何包
         // 这里假设你的 Plugin 在 net.shantu.kuiklysqlite.compiler.plugin 包下
-        val file = generatedDir.get().asFile.resolve("net/shantu/kuiklysqlite/compiler/plugin/BuildConfig.kt")
+        val file =
+            generatedDir.get().asFile.resolve("net/shantu/kuiklysqlite/compiler/plugin/BuildConfig.kt")
 
         file.parentFile.mkdirs()
-        file.writeText("""
+        file.writeText(
+            """
             package net.shantu.kuiklysqlite.compiler.plugin
 
             // 由 Gradle 自动生成，请勿修改
@@ -71,7 +80,8 @@ val generateBuildConfig by tasks.registering {
                 const val COMPILER_COORDINATE = "$coordinate"
                 const val VERSION = "$version"
             }
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 }
 

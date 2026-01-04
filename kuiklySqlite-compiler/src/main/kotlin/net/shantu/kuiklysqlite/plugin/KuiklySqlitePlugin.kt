@@ -55,7 +55,7 @@ class KuiklySqlitePlugin : Plugin<Project> {
                     println(">>> 📂 [KuiklySqlitePlugin] Configured srcDir: $srcDir")
                 }
             }
-            
+
             // 【新增】联动 clean 任务
             if (extension.srcDirs.isNotEmpty()) {
                 val cleanTask = project.tasks.findByName("clean")

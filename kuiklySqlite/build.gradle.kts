@@ -34,6 +34,10 @@ kotlin {
 //        binaries.sharedLib {
 //        }
 //    }
+    // 1. 保留原有iOS目标
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
     /* ---------------- Native targets ---------------- */
     val nativeTargets = listOf(
         iosArm64(),
@@ -53,6 +57,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("net.java.dev.jna:jna:5.18.1@aar")
+
             }
         }
     }
@@ -82,11 +87,7 @@ version = System.getenv("kuiklyBizVersion") ?: "1.0.0"
 publishing {
     repositories {
         maven {
-            credentials {
-                username = System.getenv("mavenUserName") ?: ""
-                password = System.getenv("mavenPassword") ?: ""
-            }
-            rootProject.properties["mavenUr?"]?.toString()?.let { url = uri(it) }
+            url = uri("../maven-repo") // 本地输出目录
         }
     }
 }
