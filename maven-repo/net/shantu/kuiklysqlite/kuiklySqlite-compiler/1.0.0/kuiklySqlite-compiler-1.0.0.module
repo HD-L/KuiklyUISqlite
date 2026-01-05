@@ -1,7 +1,7 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "group": "net.shantu.kuiklySqlite",
+    "group": "net.shantu.kuiklysqlite",
     "module": "kuiklySqlite-compiler",
     "version": "1.0.0",
     "attributes": {
@@ -38,11 +38,11 @@
         {
           "name": "kuiklySqlite-compiler-1.0.0.jar",
           "url": "kuiklySqlite-compiler-1.0.0.jar",
-          "size": 63930,
-          "sha512": "c70faadbe607c8ccb9972585a2fb63b143817126eb6182eaedad3657a5d70ffc2565165891f9c3c7cbda5eddd1ceba86063370a0826e2c09123bc80c08e0198c",
-          "sha256": "647821dc9a638e829f79de9494504e593f2ca0e3f3d471f35d9d393fc10a9d03",
-          "sha1": "1b2b0f55ecfe3c6926dc3b254fbd1ca40371847e",
-          "md5": "8c2261ffd9280ea8c91751ae53c466b5"
+          "size": 63929,
+          "sha512": "2c3f93d951db48ece4d40097838cd9f36ee498ad615a18a4d9056a5ac84f4e289430b6b037ad98e72c104185f68d095233525322d39a8647e1aab8bd4a4ffb14",
+          "sha256": "bd3ea08fca7b3b66a2944bab8e469aa712ed6c9b795564627d7c249330066602",
+          "sha1": "8a8aa40de0c951a9973269fa459681894f01780b",
+          "md5": "31bf2f89ad079780a0e545bd47e36c0b"
         }
       ]
     },
@@ -91,11 +91,11 @@
         {
           "name": "kuiklySqlite-compiler-1.0.0.jar",
           "url": "kuiklySqlite-compiler-1.0.0.jar",
-          "size": 63930,
-          "sha512": "c70faadbe607c8ccb9972585a2fb63b143817126eb6182eaedad3657a5d70ffc2565165891f9c3c7cbda5eddd1ceba86063370a0826e2c09123bc80c08e0198c",
-          "sha256": "647821dc9a638e829f79de9494504e593f2ca0e3f3d471f35d9d393fc10a9d03",
-          "sha1": "1b2b0f55ecfe3c6926dc3b254fbd1ca40371847e",
-          "md5": "8c2261ffd9280ea8c91751ae53c466b5"
+          "size": 63929,
+          "sha512": "2c3f93d951db48ece4d40097838cd9f36ee498ad615a18a4d9056a5ac84f4e289430b6b037ad98e72c104185f68d095233525322d39a8647e1aab8bd4a4ffb14",
+          "sha256": "bd3ea08fca7b3b66a2944bab8e469aa712ed6c9b795564627d7c249330066602",
+          "sha1": "8a8aa40de0c951a9973269fa459681894f01780b",
+          "md5": "31bf2f89ad079780a0e545bd47e36c0b"
         }
       ]
     }

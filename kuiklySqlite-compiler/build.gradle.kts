@@ -4,7 +4,7 @@ plugins {
     `maven-publish`      // 【新增】我们需要发布坐标，以便插件能引用自己
 }
 
-group = "net.shantu.kuiklySqlite"           // 【关键】必须定义 Group
+group = "net.shantu.kuiklysqlite"           // 【关键】必须定义 Group
 version = "1.0.0"              // 【关键】必须定义 Version
 
 repositories {
