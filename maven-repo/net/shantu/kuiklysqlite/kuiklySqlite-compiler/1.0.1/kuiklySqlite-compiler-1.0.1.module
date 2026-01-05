@@ -1,0 +1,103 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "net.shantu.kuiklysqlite",
+    "module": "kuiklySqlite-compiler",
+    "version": "1.0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kuiklySqlite-compiler-1.0.1.jar",
+          "url": "kuiklySqlite-compiler-1.0.1.jar",
+          "size": 63929,
+          "sha512": "15d33f70c19886692edf4c4a6e3ea540f8e5a9e9af2fd55290dd0e8be1317ef8197df2e9029e613bb004df9453f0e0493ca6d2ef175eacac63657e91a0ee966a",
+          "sha256": "89ba23cd9afeedf0c6e917de11826e42206c0e77a4f64f106348b8323bfc0b43",
+          "sha1": "509f638265254625f3b9a4a07fb383f313499835",
+          "md5": "40b9fe80f9309207ea1aa159ee070661"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.devtools.ksp",
+          "module": "symbol-processing-api",
+          "version": {
+            "requires": "1.9.20-1.0.14"
+          }
+        },
+        {
+          "group": "com.squareup",
+          "module": "kotlinpoet",
+          "version": {
+            "requires": "1.14.2"
+          }
+        },
+        {
+          "group": "com.squareup",
+          "module": "kotlinpoet-ksp",
+          "version": {
+            "requires": "1.14.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kuiklySqlite-compiler-1.0.1.jar",
+          "url": "kuiklySqlite-compiler-1.0.1.jar",
+          "size": 63929,
+          "sha512": "15d33f70c19886692edf4c4a6e3ea540f8e5a9e9af2fd55290dd0e8be1317ef8197df2e9029e613bb004df9453f0e0493ca6d2ef175eacac63657e91a0ee966a",
+          "sha256": "89ba23cd9afeedf0c6e917de11826e42206c0e77a4f64f106348b8323bfc0b43",
+          "sha1": "509f638265254625f3b9a4a07fb383f313499835",
+          "md5": "40b9fe80f9309207ea1aa159ee070661"
+        }
+      ]
+    }
+  ]
+}

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.shantu.kuiklysqlite"           // 【关键】必须定义 Group
-version = "1.0.0"              // 【关键】必须定义 Version
+version = "1.0.1"              // 【关键】必须定义 Version
 
 repositories {
     mavenCentral()
