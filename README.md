@@ -52,7 +52,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 plugins {
-    id("net.shantu.kuiklysqlite.plugin")
+       id("net.shantu.kuiklysqlite.plugin") version "1.0.0"
 }
 kuiklysqlite {
     // 1. 强制指定生成文件的包名
