@@ -6,6 +6,7 @@ import {
 import { KRMyView } from './components/KRMyView';
 import { KRBridgeModule } from './modules/KRBridgeModule';
 import { KRMyModule } from './modules/KRMyModule';
+import { KRSandboxPathModule } from './modules/KRSandboxPathModule';
 
 export class KuiklyViewDelegate extends IKuiklyViewDelegate {
   getCustomRenderViewCreatorRegisterMap(): Map<string, KRRenderViewExportCreator> {
@@ -18,6 +19,7 @@ export class KuiklyViewDelegate extends IKuiklyViewDelegate {
     const map: Map<string, KRRenderModuleExportCreator> = new Map();
     map.set(KRBridgeModule.MODULE_NAME, () => new KRBridgeModule());
     map.set(KRMyModule.MODULE_NAME, () => new KRMyModule())
+    map.set(KRSandboxPathModule.MODULE_NAME, () => new KRSandboxPathModule())
     return map;
   }
 }

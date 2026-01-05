@@ -1,7 +1,7 @@
 import { KRAny, KuiklyRenderBaseModule, KuiklyRenderCallback } from "@kuikly-open/render";
 
 export class KRSandboxPathModule extends KuiklyRenderBaseModule {
-  static readonly MODULE_NAME = "KRMyLogModule";
+  static readonly MODULE_NAME = "SandboxPathModule";
 
   syncMode(): boolean {
     return true;
