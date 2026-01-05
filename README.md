@@ -33,12 +33,19 @@
 
 ```kotlin
 pluginManagement {
-    includeBuild("kuiklySqlite-compiler")
+    repositories {
+        maven {
+            url = uri("https://hd-l.github.io/KuiklyUISqlite") // GitHub Pages 地址
+        }
+    }
 }
-include(":kuiklySqlite")
-//ohos文件解开注释
-//project(":kuiklySqlite").buildFileName = buildFileName
-includeBuild("kuiklySqlite-compiler")
+dependencyResolutionManagement {
+    repositories {
+        maven {
+            url = uri("https://hd-l.github.io/KuiklyUISqlite") // GitHub Pages 地址
+        }
+    }
+}
 ```
 
 **模块 `build.gradle.kts/build.ohos.gradle.kts`**:
@@ -56,7 +63,7 @@ kuiklysqlite {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":kuiklySqlite"))
+            implementation("net.shantu.kuiklysqlite:kuiklySqlite:1.0.0")
         }
     }
 }
