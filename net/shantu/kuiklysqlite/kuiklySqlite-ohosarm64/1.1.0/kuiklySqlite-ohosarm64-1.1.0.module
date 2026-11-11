@@ -1,0 +1,82 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../kuiklySqlite/1.1.0/kuiklySqlite-1.1.0.module",
+    "group": "net.shantu.kuiklysqlite",
+    "module": "kuiklySqlite",
+    "version": "1.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "ohosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ohos_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.0.21-KBA-010"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kuiklySqlite.klib",
+          "url": "kuiklySqlite-ohosarm64-1.1.0.klib",
+          "size": 78136,
+          "sha512": "14809060ea211c0e84a197578cd37fa422377b47515b35233ee94c5f049ac56d845032138857f12f455c20e8a45067ea4fe748e328e069cc10e5b2386bb8d949",
+          "sha256": "cd5ad518de2ed3970f3675c6acc8876c038035b4ce698e36e5ade52d5db54da7",
+          "sha1": "7db6e1f3a6a52a6d06da0480c51c5de565084a62",
+          "md5": "3af18df687e8fbbb96fd8b5a44ea8094"
+        },
+        {
+          "name": "kuiklySqlite-cinterop-sqlite3.klib",
+          "url": "kuiklySqlite-ohosarm64-1.1.0-cinterop-sqlite3.klib",
+          "size": 3625114,
+          "sha512": "0b9cc554ff02ce01252a2f2f5b4fa99e14b0c310361d1040dcd8609c3555672210a5c2176fe891e8097611c96cd90cdd18dd2d1a9677d2100ad4bda8f303b6b6",
+          "sha256": "b03d272582bc3af20891c522854dfd4987f11498a36e0185b6781407f205f246",
+          "sha1": "71b377419d87233bc6c5022cab0a942e70d18867",
+          "md5": "f51dbf8eb19a6036c27e76b00197c88e"
+        }
+      ]
+    },
+    {
+      "name": "ohosArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ohos_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "files": [
+        {
+          "name": "kuiklySqlite-ohosarm64-1.1.0-sources.jar",
+          "url": "kuiklySqlite-ohosarm64-1.1.0-sources.jar",
+          "size": 21890,
+          "sha512": "e1723c10eac5854a3015171a65d2491db154ca6f48762fe7f4e15bee08b7cfc5077a9133b482b3c1b530b982385d1202114b0e15c1d32fc0c0db0a9aab82785b",
+          "sha256": "adea9c5fd481fcde1cca0fa91a56763bcc527213265a6cf57a5f239015692c2a",
+          "sha1": "c2d2c9969c5ae9fcef7186050991d627822792e1",
+          "md5": "81118ff49a5b1df31a0b87cd16cc90cc"
+        }
+      ]
+    }
+  ]
+}

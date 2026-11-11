@@ -1,0 +1,308 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "net.shantu.kuiklysqlite",
+    "module": "kuiklySqlite",
+    "version": "1.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.0.21-KBA-010"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kuiklySqlite-metadata-1.1.0.jar",
+          "url": "kuiklySqlite-1.1.0.jar",
+          "size": 237400,
+          "sha512": "db8e77da7500c71e941ac9a91a429756c338441fddf909002384abb8cb90de328c0d646de6da781446d226bd30c1ce7f01ef90dbfca2f66a6021f10c9935d23a",
+          "sha256": "e6229cf17a5043392d06ed94e6bd1e9a6c9ba80496af6eeff56aebdc31a72492",
+          "sha1": "a91a4795850be4126c4befcab42fbc0e0668d247",
+          "md5": "b9aa903784a9cd5e5123ec0bd7836aa3"
+        }
+      ]
+    },
+    {
+      "name": "metadataSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "kuiklySqlite-kotlin-1.1.0-sources.jar",
+          "url": "kuiklySqlite-1.1.0-sources.jar",
+          "size": 21890,
+          "sha512": "ced6a32abca43ed684b2e549d5e3160b5012edb01b9bd6440af78434f080f8969c5926c8fc24279a34b538352003cb5ebe9c0c8be7493c81c3f3c88222d9b5db",
+          "sha256": "a6fd8027bb73e3f0eaf2987ab86914682b6c639c152df9154bc9fdeeb6f3a6e4",
+          "sha1": "96db6c52067c8d28bee1f4f4c45ab4f2cecaad2c",
+          "md5": "fa7c2184ab9d774920fa83a93782e3c2"
+        }
+      ]
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-android/1.1.0/kuiklySqlite-android-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-android",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-android/1.1.0/kuiklySqlite-android-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-android",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-android/1.1.0/kuiklySqlite-android-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-android",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iosarm64/1.1.0/kuiklySqlite-iosarm64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iosarm64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iosarm64/1.1.0/kuiklySqlite-iosarm64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iosarm64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iosarm64/1.1.0/kuiklySqlite-iosarm64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iosarm64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iossimulatorarm64/1.1.0/kuiklySqlite-iossimulatorarm64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iossimulatorarm64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iossimulatorarm64/1.1.0/kuiklySqlite-iossimulatorarm64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iossimulatorarm64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosSimulatorArm64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_simulator_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iossimulatorarm64/1.1.0/kuiklySqlite-iossimulatorarm64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iossimulatorarm64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iosx64/1.1.0/kuiklySqlite-iosx64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iosx64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosX64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iosx64/1.1.0/kuiklySqlite-iosx64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iosx64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "iosX64MetadataElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-iosx64/1.1.0/kuiklySqlite-iosx64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-iosx64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "ohosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ohos_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-ohosarm64/1.1.0/kuiklySqlite-ohosarm64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-ohosarm64",
+        "version": "1.1.0"
+      }
+    },
+    {
+      "name": "ohosArm64SourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.native.target": "ohos_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kuiklySqlite-ohosarm64/1.1.0/kuiklySqlite-ohosarm64-1.1.0.module",
+        "group": "net.shantu.kuiklysqlite",
+        "module": "kuiklySqlite-ohosarm64",
+        "version": "1.1.0"
+      }
+    }
+  ]
+}
