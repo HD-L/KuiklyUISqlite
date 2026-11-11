@@ -33,6 +33,12 @@ kotlin {
     ohosArm64 {
         binaries.sharedLib {
         }
+        // 测试可执行文件需显式链接 hilog 与 libunwind（KBA 工具链只给 sharedLib 自动补齐）
+        binaries.all {
+            if (this is org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable) {
+                linkerOpts("-lhilog_ndk.z", "-lunwind")
+            }
+        }
     }
     // 1. 保留原有iOS目标
     iosArm64()
@@ -59,6 +65,12 @@ kotlin {
                 implementation("net.java.dev.jna:jna:5.18.1@aar")
             }
         }
+        // 与 build.gradle.kts 保持一致；鸿蒙测试：linkDebugTestOhosArm64 后用 hdc 推送 test.kexe 到设备运行
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
     }
 
     /* ---------------- cinterop ---------------- */
@@ -81,7 +93,7 @@ kotlin {
 }
 
 group = "net.shantu.kuiklysqlite"
-version = System.getenv("kuiklyBizVersion") ?: "1.0.0"
+version = System.getenv("kuiklyBizVersion") ?: "1.1.0"
 
 publishing {
     repositories {

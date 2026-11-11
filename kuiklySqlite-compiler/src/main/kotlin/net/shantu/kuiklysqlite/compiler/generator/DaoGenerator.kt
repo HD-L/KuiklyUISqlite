@@ -31,7 +31,7 @@ class DaoGenerator(
             .addProperty(
                 PropertySpec.builder("driver", driverClass)
                     .initializer("driver")
-                    .addModifiers(KModifier.PRIVATE)
+                    .addModifiers(KModifier.OVERRIDE)
                     .build()
             )
             .addSuperinterface(baseDaoClass)
@@ -61,17 +61,17 @@ class DaoGenerator(
         // Deprecated method implementation
         generateExecuteSelectMethod(typeSpec, tableInfo)
         
-        // Async & Reactive methods
-        generateInsertAsyncMethod(typeSpec, tableInfo)
-        generateUpdateAsyncMethod(typeSpec, tableInfo)
-        generateDeleteAsyncMethod(typeSpec, tableInfo)
+        // 异步方法（insertAsync / selectAllAsync ...）由 BaseDao 的默认实现提供，不再生成
+
+        // 所有同步方法都在连接锁内执行，保证多语句操作（如 INSERT + lastInsertId）不被其他线程打断
+        val lockedTypeSpec = wrapWithConnection(typeSpec.build())
 
         // Generate Table Object for DSL
         val tableObjectSpec = generateTableObject(tableInfo)
 
         // File generation
         val fileSpec = FileSpec.builder(packageName, daoClassName)
-            .addType(typeSpec.build())
+            .addType(lockedTypeSpec)
             .addType(tableObjectSpec) // Add the Table object to the same file
             .build()
             
@@ -93,70 +93,25 @@ class DaoGenerator(
         return tableInfo.columnInfoMap[prop]?.columnName ?: prop.simpleName.asString()
     }
     
-    // --- Async Methods ---
-    private fun generateInsertAsyncMethod(typeBuilder: TypeSpec.Builder, tableInfo: TableInfo) {
-        val func = FunSpec.builder("insertAsync")
-            .addParameter("entity", tableInfo.entityType)
-            .addParameter(
-                ParameterSpec.builder(
-                    "callback",
-                    LambdaTypeName.get(
-                        parameters = listOf(ParameterSpec.builder("result", Long::class.asTypeName()).build()),
-                        returnType = Unit::class.asTypeName()
-                    )
-                ).build()
-            )
-            .addCode("""
-                net.shantu.kuiklysqlite.SqlWorker.execute(
-                    block = { insert(entity) },
-                    callback = callback
-                )
-            """.trimIndent())
-        typeBuilder.addFunction(func.build())
+    /** 把除 parseRow 以外的方法体包进 driver.withConnection { ... }（inline，可在其中直接 return） */
+    private fun wrapWithConnection(type: TypeSpec): TypeSpec {
+        val withConnection = MemberName("net.shantu.kuiklysqlite", "withConnection")
+        val builder = type.toBuilder()
+        builder.funSpecs.replaceAll { func ->
+            if (func.name == "parseRow" || func.body.isEmpty()) {
+                func
+            } else {
+                func.toBuilder()
+                    .clearBody()
+                    .beginControlFlow("driver.%M", withConnection)
+                    .addCode(func.body)
+                    .endControlFlow()
+                    .build()
+            }
+        }
+        return builder.build()
     }
 
-    private fun generateUpdateAsyncMethod(typeBuilder: TypeSpec.Builder, tableInfo: TableInfo) {
-        val func = FunSpec.builder("updateAsync")
-            .addParameter("entity", tableInfo.entityType)
-            .addParameter(
-                ParameterSpec.builder(
-                    "callback",
-                    LambdaTypeName.get(
-                        parameters = listOf(ParameterSpec.builder("result", Boolean::class.asTypeName()).build()),
-                        returnType = Unit::class.asTypeName()
-                    )
-                ).build()
-            )
-            .addCode("""
-                net.shantu.kuiklysqlite.SqlWorker.execute(
-                    block = { update(entity) },
-                    callback = callback
-                )
-            """.trimIndent())
-        typeBuilder.addFunction(func.build())
-    }
-
-    private fun generateDeleteAsyncMethod(typeBuilder: TypeSpec.Builder, tableInfo: TableInfo) {
-        val func = FunSpec.builder("deleteAsync")
-            .addParameter("entity", tableInfo.entityType)
-            .addParameter(
-                ParameterSpec.builder(
-                    "callback",
-                    LambdaTypeName.get(
-                        parameters = listOf(ParameterSpec.builder("result", Boolean::class.asTypeName()).build()),
-                        returnType = Unit::class.asTypeName()
-                    )
-                ).build()
-            )
-            .addCode("""
-                net.shantu.kuiklysqlite.SqlWorker.execute(
-                    block = { delete(entity) },
-                    callback = callback
-                )
-            """.trimIndent())
-        typeBuilder.addFunction(func.build())
-    }
-    
     // --- Private Helper: Parse Row ---
     private fun generateParseRowMethod(typeBuilder: TypeSpec.Builder, tableInfo: TableInfo) {
         val stmtClass = ClassName("net.shantu.kuiklysqlite", "SqlStatement")
@@ -428,7 +383,7 @@ class DaoGenerator(
             .addParameter("entities", ClassName("kotlin.collections", "List").parameterizedBy(tableInfo.entityType))
             .returns(Boolean::class)
             .addStatement("if (entities.isEmpty()) return true")
-            .addStatement("driver.beginTransaction()")
+            .beginControlFlow("driver.transaction")
             .addStatement("val stmt = driver.prepare(%S)", sql)
             .beginControlFlow("try")
             
@@ -441,17 +396,12 @@ class DaoGenerator(
         func.addStatement("stmt.reset()") // Important for reuse
         func.endControlFlow() // for
         
-        func.addStatement("driver.endTransaction()")
+        func.nextControlFlow("finally")
+            .addStatement("stmt.close()")
+            .endControlFlow() // try
+        func.endControlFlow() // transaction：任一条失败整体回滚并抛出
         func.addStatement("driver.notifyListeners(%S)", tableInfo.tableName)
         func.addStatement("return true")
-        
-        func.nextControlFlow("catch (e: Exception)")
-        func.addStatement("driver.rollbackTransaction()")
-        func.addStatement("throw e")
-        func.endControlFlow()
-            .beginControlFlow("finally")
-            .addStatement("stmt.close()")
-            .endControlFlow()
 
         typeBuilder.addFunction(func.build())
     }
@@ -467,7 +417,7 @@ class DaoGenerator(
             .addParameter("entities", ClassName("kotlin.collections", "List").parameterizedBy(tableInfo.entityType))
             .returns(Boolean::class)
             .addStatement("if (entities.isEmpty()) return true")
-            .addStatement("driver.beginTransaction()")
+            .beginControlFlow("driver.transaction")
             .addStatement("val stmt = driver.prepare(%S)", sql)
             .beginControlFlow("try")
             
@@ -484,17 +434,12 @@ class DaoGenerator(
         func.addStatement("stmt.reset()")
         func.endControlFlow() // for
         
-        func.addStatement("driver.endTransaction()")
+        func.nextControlFlow("finally")
+            .addStatement("stmt.close()")
+            .endControlFlow() // try
+        func.endControlFlow() // transaction：任一条失败整体回滚并抛出
         func.addStatement("driver.notifyListeners(%S)", tableInfo.tableName)
         func.addStatement("return true")
-        
-        func.nextControlFlow("catch (e: Exception)")
-        func.addStatement("driver.rollbackTransaction()")
-        func.addStatement("throw e")
-        func.endControlFlow()
-            .beginControlFlow("finally")
-            .addStatement("stmt.close()")
-            .endControlFlow()
 
         typeBuilder.addFunction(func.build())
     }
@@ -506,7 +451,7 @@ class DaoGenerator(
             .addParameter("entities", ClassName("kotlin.collections", "List").parameterizedBy(tableInfo.entityType))
             .returns(Boolean::class)
             .addStatement("if (entities.isEmpty()) return true")
-            .addStatement("driver.beginTransaction()")
+            .beginControlFlow("driver.transaction")
             .addStatement("val stmt = driver.prepare(%S)", sql)
             .beginControlFlow("try")
             
@@ -517,17 +462,12 @@ class DaoGenerator(
         func.addStatement("stmt.reset()")
         func.endControlFlow() // for
         
-        func.addStatement("driver.endTransaction()")
+        func.nextControlFlow("finally")
+            .addStatement("stmt.close()")
+            .endControlFlow() // try
+        func.endControlFlow() // transaction：任一条失败整体回滚并抛出
         func.addStatement("driver.notifyListeners(%S)", tableInfo.tableName)
         func.addStatement("return true")
-        
-        func.nextControlFlow("catch (e: Exception)")
-        func.addStatement("driver.rollbackTransaction()")
-        func.addStatement("throw e")
-        func.endControlFlow()
-            .beginControlFlow("finally")
-            .addStatement("stmt.close()")
-            .endControlFlow()
 
         typeBuilder.addFunction(func.build())
     }

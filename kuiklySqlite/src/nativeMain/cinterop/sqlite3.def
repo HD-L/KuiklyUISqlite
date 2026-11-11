@@ -15,5 +15,9 @@ compilerOpts = -std=c99 -fPIC
 // 因为我们在 gradle 里配置了 includeDirs，所以直接写文件名即可
 #include "sqlite3.c"
 
+// sqlite3.h 已先被 cinterop 包含，sqlite3.c 内嵌头文件里的 sqlite3_version 定义会被头文件保护跳过，
+// 导致绑定生成的 sqlite3_version 访问器链接失败（测试可执行文件会报 Undefined symbol），这里补上定义。
+SQLITE_API const char sqlite3_version[] = SQLITE_VERSION;
+
 // 如果你有多个 .c 文件，都在这里 include 进来
 // #include "other_utils.c"

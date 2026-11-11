@@ -42,4 +42,85 @@ interface BaseDao<T> {
         return QueryBuilder(this)
     }
 
+    // --- 异步 API ---
+    // 在 SqlWorker 后台线程执行，回调经 driver.callbackDispatcher（或传入的 dispatcher）投递；
+    // 失败时调用 onError，未提供则交给 driver.logger。其他查询可用 driver.async { ... } 组合。
+
+    /** 生成的 DAO 所使用的连接 */
+    val driver: SqlDriver
+
+    fun insertAsync(
+        entity: T,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Long) -> Unit,
+    ) = driver.async({ insert(entity) }, onError, dispatcher, callback)
+
+    fun updateAsync(
+        entity: T,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Boolean) -> Unit,
+    ) = driver.async({ update(entity) }, onError, dispatcher, callback)
+
+    fun deleteAsync(
+        entity: T,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Boolean) -> Unit,
+    ) = driver.async({ delete(entity) }, onError, dispatcher, callback)
+
+    fun deleteByIdAsync(
+        id: Any,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Boolean) -> Unit,
+    ) = driver.async({ deleteById(id) }, onError, dispatcher, callback)
+
+    fun batchInsertAsync(
+        entities: List<T>,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Boolean) -> Unit,
+    ) = driver.async({ batchInsert(entities) }, onError, dispatcher, callback)
+
+    fun batchUpdateAsync(
+        entities: List<T>,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Boolean) -> Unit,
+    ) = driver.async({ batchUpdate(entities) }, onError, dispatcher, callback)
+
+    fun batchDeleteAsync(
+        entities: List<T>,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Boolean) -> Unit,
+    ) = driver.async({ batchDelete(entities) }, onError, dispatcher, callback)
+
+    fun selectAllAsync(
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (List<T>) -> Unit,
+    ) = driver.async({ selectAll() }, onError, dispatcher, callback)
+
+    fun selectByIdAsync(
+        id: Any,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (T?) -> Unit,
+    ) = driver.async({ selectById(id) }, onError, dispatcher, callback)
+
+    fun countAsync(
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Long) -> Unit,
+    ) = driver.async({ count() }, onError, dispatcher, callback)
+
+    fun existsAsync(
+        id: Any,
+        onError: ((Throwable) -> Unit)? = null,
+        dispatcher: SqlCallbackDispatcher = driver.callbackDispatcher,
+        callback: (Boolean) -> Unit,
+    ) = driver.async({ exists(id) }, onError, dispatcher, callback)
 }

@@ -1,7 +1,5 @@
 package net.shantu.kuiklysqlite
 
-import kotlin.concurrent.AtomicReference
-import kotlin.native.concurrent.Worker
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.CPointerVar
 import kotlinx.cinterop.alloc
@@ -13,17 +11,10 @@ import cnames.structs.sqlite3_stmt
 
 // ---------------- Actual Driver (Connection) ----------------
 @kotlinx.cinterop.ExperimentalForeignApi
-class NativeSqlDriver(path: String) : SqlDriver {
-    
-    // Use a dedicated Worker for all database operations to ensure thread safety
-    // This serializes all access to the database connection
-    private val worker = Worker.start(name = "KuiklySqlite-Driver-Worker")
-    
-    // Use kotlin.concurrent.AtomicReference (available in Kotlin 1.9+)
-    // No need for freeze() in new memory model
-    private val dbPointer = AtomicReference<CPointer<sqlite3>?>(null)
-    
-    override var logger: SqlLogger? = null
+class NativeSqlDriver(path: String) : BaseSqlDriver() {
+
+    // 只在持有连接锁时读写（BaseSqlDriver 提供可重入的连接锁）
+    private var dbPointer: CPointer<sqlite3>? = null
 
     init {
         memScoped {
@@ -35,7 +26,7 @@ class NativeSqlDriver(path: String) : SqlDriver {
             if (rc != 0) {
                 throw SqlDatabaseOpenException("Cannot open database: $path. Error code: $rc")
             }
-            dbPointer.value = dbPtrVar.value
+            dbPointer = dbPtrVar.value
         }
         logger?.log("Database opened: $path")
         enableWalMode()
@@ -51,19 +42,14 @@ class NativeSqlDriver(path: String) : SqlDriver {
         }
     }
 
-    override fun close() {
-        // Atomic compare and set to ensure we only close once
-        val ptr = dbPointer.value
-        if (ptr != null) {
-            if (dbPointer.compareAndSet(ptr, null)) {
-                sqlite3_close(ptr)
-                logger?.log("Database closed")
-                worker.requestTermination()
-            }
-        }
+    override fun close() = withConnection {
+        val ptr = dbPointer ?: return@withConnection
+        sqlite3_close(ptr)
+        dbPointer = null
+        logger?.log("Database closed")
     }
 
-    override fun execute(sql: String) {
+    override fun execute(sql: String) = withConnection {
         val db = checkOpen()
         logger?.log("EXECUTE: $sql")
         
@@ -73,11 +59,11 @@ class NativeSqlDriver(path: String) : SqlDriver {
         }
     }
 
-    override fun prepare(sql: String): SqlStatement {
+    override fun prepare(sql: String): SqlStatement = withConnection {
         val db = checkOpen()
         logger?.log("PREPARE: $sql")
 
-        return memScoped {
+        memScoped {
             val stmtPtrVar = alloc<CPointerVar<sqlite3_stmt>>()
             val rc = sqlite3_prepare_v2(db, sql, -1, stmtPtrVar.ptr, null)
 
@@ -90,39 +76,12 @@ class NativeSqlDriver(path: String) : SqlDriver {
         }
     }
 
-    override fun getChanges(): Int = sqlite3_changes(checkOpen())
+    override fun getChanges(): Int = withConnection { sqlite3_changes(checkOpen()) }
 
-    override fun getLastInsertId(): Long = sqlite3_last_insert_rowid(checkOpen())
-    
-    // --- Observer Support (Thread Safe via AtomicReference & Copy-On-Write) ---
-    private val listeners = AtomicReference(mapOf<String, List<() -> Unit>>())
-
-    override fun addListener(tableName: String, listener: () -> Unit) {
-        while (true) {
-            val current = listeners.value
-            val list = current[tableName] ?: emptyList()
-            val newMap = current + (tableName to (list + listener))
-            if (listeners.compareAndSet(current, newMap)) break
-        }
-    }
-
-    override fun removeListener(tableName: String, listener: () -> Unit) {
-        while (true) {
-            val current = listeners.value
-            val list = current[tableName] ?: return
-            val newList = list - listener
-            val newMap = if (newList.isEmpty()) current - tableName else current + (tableName to newList)
-            if (listeners.compareAndSet(current, newMap)) break
-        }
-    }
-
-    override fun notifyListeners(tableName: String) {
-        val current = listeners.value
-        current[tableName]?.forEach { it.invoke() }
-    }
+    override fun getLastInsertId(): Long = withConnection { sqlite3_last_insert_rowid(checkOpen()) }
     
     private fun checkOpen(): CPointer<sqlite3> {
-        return dbPointer.value ?: throw SqlDatabaseOpenException("Database is closed")
+        return dbPointer ?: throw SqlDatabaseOpenException("Database is closed")
     }
     
     private fun throwSqliteError(errorCode: Int, contextMessage: String) {

@@ -2,33 +2,29 @@ package net.shantu.kuiklysqlite
 
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import java.util.concurrent.ThreadFactory
-import java.util.concurrent.atomic.AtomicInteger
 
 actual object SqlWorker {
-    private val executor: ExecutorService by lazy {
-        val cpuCount = Runtime.getRuntime().availableProcessors()
-        val poolSize = (cpuCount - 1).coerceIn(2, 4)
 
-        Executors.newFixedThreadPool(poolSize, object : ThreadFactory {
-            private val count = AtomicInteger(0)
-            override fun newThread(r: Runnable): Thread {
-                return Thread(r, "KuiklySqlite-Worker-${count.getAndIncrement()}")
-            }
-        })
+    private val executor: ExecutorService by lazy {
+        Executors.newSingleThreadExecutor { runnable ->
+            Thread(runnable, "KuiklySqlite-Worker").apply { isDaemon = true }
+        }
     }
 
-    actual fun <T> execute(block: () -> T, callback: (T) -> Unit) {
-        executor.submit {
+    actual fun post(task: () -> Unit) {
+        executor.execute {
             try {
-                val result = block()
-                callback(result)
-            } catch (e: Exception) {
-                // TODO: Handle exception or propagate via callback?
-                // Currently SqlWorker interface doesn't support error callback,
-                // assuming block handles its own try-catch or we crash.
+                task()
+            } catch (e: Throwable) {
+                // 兜底：正常情况下 SqlDriver.async 已把异常交给 onError，这里只防止线程被意外终止
+                System.err.println("[KuiklySqlite] Uncaught error in SqlWorker: $e")
                 e.printStackTrace()
             }
         }
+    }
+
+    @Deprecated("Use SqlDriver.async(), which reports failures via onError")
+    actual fun <T> execute(block: () -> T, callback: (T) -> Unit) {
+        post { callback(block()) }
     }
 }

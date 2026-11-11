@@ -24,10 +24,17 @@ Kotlin Multiplatform 的轻量 ORM 库 **KuiklySqlite**（为 Kuikly UI 设计�
 ./gradlew :kuiklySqlite:build                          # 构建库（JVM/iOS 通道）
 ./gradlew -c settings.ohos.gradle.kts :shared:build    # ohos 通道，必须带 -c 指定 settings 文件
 bash publishing-github.sh                              # 发布（需按当前版本号核对脚本内容）
+./gradlew :kuiklySqlite:connectedDebugAndroidTest      # commonTest 作为 Android instrumented test 跑（需连设备）
+./gradlew :kuiklySqlite:linkDebugTestIosSimulatorArm64 && xcrun simctl spawn booted kuiklySqlite/build/bin/iosSimulatorArm64/debugTest/test.kexe
 ```
+
+KGP 会把 `iosSimulatorArm64Test` 任务置为 disabled（新版 Xcode 下），因此 iOS 测试直接用 simctl 运行链接产物；鸿蒙同理用 hdc 推送 `ohosArm64/debugTest/test.kexe` 运行。
 
 ## 架构与分层约束
 
+- 线程模型（1.1.0 起）：`BaseSqlDriver` 持有可重入连接锁，生成的 DAO 方法都包在 `driver.withConnection { }` 中，事务从 BEGIN 到 COMMIT 持锁；
+  异步统一走 `SqlWorker` 单后台线程 + `SqlCallbackDispatcher` 回调。不要再引入线程池或绕过连接锁直接多步操作连接。
+- 运行库与 compiler 版本需同步升级：生成代码依赖运行库 API（`withConnection`、`BaseDao.driver`）。
 - 修改公共 API 时注意四套 source set 都要落地：`commonMain` 定义接口，`androidMain` / `nativeMain` 各写 `expect` 实现（`DriverFactory`、`SqlWorker` 成对出现）。
 - KSP 生成规则：`shared/build.gradle.kts` 的 `kuiklysqlite { packageName / srcDirs }` 决定生成位置；生成结果**已提交**在 `shared/src/commonMain/kuiklysqlite/`，改实体后需重新跑 KSP 并保持二者一致。
 - `kuiklySqlite-compiler` 里的 `BuildConfig.kt` 由 Gradle 任务自动生成，不要手改。

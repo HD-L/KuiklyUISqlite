@@ -18,6 +18,15 @@ kotlin {
             }
         }
         publishLibraryVariants("release")
+        // commonTest 作为设备上的 instrumented test 运行（JNA 需要加载打包进 APK 的 libsqlite3.so，JVM 单测无法加载）
+        @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant {
+            sourceSetTree.set(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree.test)
+        }
+        @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+        unitTestVariant {
+            sourceSetTree.set(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree.unitTest)
+        }
     }/* ---------------- iOS (CocoaPods) ---------------- */
     cocoapods {
         homepage = "Link to sqlite3 module homepage"
@@ -60,6 +69,18 @@ kotlin {
 
             }
         }
+        // 测试：iOS 用 iosSimulatorArm64Test，Android 用 connectedDebugAndroidTest（需连接设备/模拟器）
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation("androidx.test:runner:1.5.2")
+                implementation("androidx.test.ext:junit:1.1.5")
+            }
+        }
     }
 
     /* ---------------- cinterop ---------------- */
@@ -82,7 +103,7 @@ kotlin {
 }
 
 group = "net.shantu.kuiklysqlite"
-version = System.getenv("kuiklyBizVersion") ?: "1.0.0"
+version = System.getenv("kuiklyBizVersion") ?: "1.1.0"
 
 publishing {
     repositories {
@@ -98,6 +119,7 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 33
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // 【新增】配置 CMake 参数
         externalNativeBuild {
             cmake {
