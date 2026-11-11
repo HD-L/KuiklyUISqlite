@@ -1,0 +1,134 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../kuiklySqlite/1.1.0/kuiklySqlite-1.1.0.module",
+    "group": "net.shantu.kuiklysqlite",
+    "module": "kuiklySqlite",
+    "version": "1.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.0.21-KBA-010"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kuiklySqlite-release.aar",
+          "url": "kuiklySqlite-android-1.1.0.aar",
+          "size": 2430354,
+          "sha512": "8757f44d1710537754e0c9005b1293fd8072128b14fd151194a91a8442d2b24f448a87b878bd33e772d4c5c1b46ebf639c9be6c5363eb122bf9ccacba9cdacc2",
+          "sha256": "b453b3952160d5f8202aedcc57a833b64c08a00b414498cae01ff16a9faa5fe4",
+          "sha1": "ef0ee03600c598578e7e2a0d0d24ae7b2505e6e6",
+          "md5": "4283861c90d5a390136b25d3b66dccf4"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "net.java.dev.jna",
+          "module": "jna",
+          "version": {
+            "requires": "5.18.1"
+          },
+          "excludes": [
+            {
+              "group": "*",
+              "module": "*"
+            }
+          ],
+          "thirdPartyCompatibility": {
+            "artifactSelector": {
+              "name": "jna",
+              "type": "aar",
+              "extension": "aar"
+            }
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.0.21-KBA-010"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-stdlib-common"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-test-common"
+            },
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "kotlin-test-annotations-common"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "kuiklySqlite-release.aar",
+          "url": "kuiklySqlite-android-1.1.0.aar",
+          "size": 2430354,
+          "sha512": "8757f44d1710537754e0c9005b1293fd8072128b14fd151194a91a8442d2b24f448a87b878bd33e772d4c5c1b46ebf639c9be6c5363eb122bf9ccacba9cdacc2",
+          "sha256": "b453b3952160d5f8202aedcc57a833b64c08a00b414498cae01ff16a9faa5fe4",
+          "sha1": "ef0ee03600c598578e7e2a0d0d24ae7b2505e6e6",
+          "md5": "4283861c90d5a390136b25d3b66dccf4"
+        }
+      ]
+    },
+    {
+      "name": "releaseSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "files": [
+        {
+          "name": "kuiklySqlite-android-1.1.0-sources.jar",
+          "url": "kuiklySqlite-android-1.1.0-sources.jar",
+          "size": 24738,
+          "sha512": "dfa2872ae09671250307f389e40e196baafae35ff06fd16f241115669506a32816d162862ed175698e1b030ba3111f51a4ba39cade8e950a6c5af24d774129d8",
+          "sha256": "9e88762947069e6966a2e1af4eac8e24ed56fc563a35b67796c7937c94d9a480",
+          "sha1": "d1b8a85539b4b56decf1c452cf47ee89bc9255bf",
+          "md5": "b6ff2f201ae1d20e214d283f23d07d0a"
+        }
+      ]
+    }
+  ]
+}

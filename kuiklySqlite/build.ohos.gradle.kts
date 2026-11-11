@@ -9,6 +9,11 @@ plugins {
 // 定义生成的库名称（不带 lib 前缀和 .so 后缀）
 val nativeLibName = "sqlite3"
 
+// KBA 2.0.21 自带的 clang 较旧：Xcode 26+ 的 TargetConditionals.h 会因 `__is_target_environment(kernelkit)`
+// 在旧 clang 上误判为真而 #error，导致 iOS 目标的 cinterop 失败（且旧 clang 不认识 -fdefine-target-os-macros）。
+// 构建时从本机 SDK 复制一份去掉该检查的头文件，经 -I 优先于 SDK 头文件；旧版 Xcode 无此检查时生成原样副本，不影响行为。
+val targetConditionalsShimDir = layout.buildDirectory.dir("kba-ios-shim").get().asFile
+
 kotlin {
     /* ---------------- Android JVM ---------------- */
     androidTarget {
@@ -81,6 +86,10 @@ kotlin {
                 packageName = "net.shantu.kuiklysqlite"
                 // 只保留「真正必要」的 include
                 includeDirs("src/nativeMain/c")
+                // 见文件末尾 generateTargetConditionalsShim：KBA 旧 clang 解析新版 iOS SDK 头文件的兼容处理
+                if (target.name.startsWith("ios")) {
+                    compilerOpts("-I${targetConditionalsShimDir.absolutePath}")
+                }
                 // 【关键修改】针对 Android Native 目标，强制导出所有符号
                 if (target.name.startsWith("androidNative")) {
                     // -fvisibility=default : 让所有函数符号在动态库中可见
@@ -134,3 +143,23 @@ fun getCommonCompilerArgs(): List<String> {
         "-Xallocator=std"
     )
 }
+
+val generateTargetConditionalsShim by tasks.registering {
+    outputs.dir(targetConditionalsShimDir)
+    onlyIf { System.getProperty("os.name").startsWith("Mac") }
+    doLast {
+        val sdkPath = ProcessBuilder("xcrun", "--sdk", "iphoneos", "--show-sdk-path")
+            .start().inputStream.bufferedReader().readText().trim()
+        val source = file("$sdkPath/usr/include/TargetConditionals.h").readText()
+        val kernelKitCheck = Regex(
+            """#if defined\(__is_target_environment\) && defined\(__has_extension\)\s*\n\s*#if __is_target_environment\(kernelkit\)[^\n]*\n[^\n]*\n\s*#endif\s*\n#endif\n"""
+        )
+        targetConditionalsShimDir.mkdirs()
+        file("$targetConditionalsShimDir/TargetConditionals.h").writeText(source.replace(kernelKitCheck, ""))
+    }
+}
+
+tasks.matching { it.name.startsWith("cinteropSqlite3Ios") }.configureEach {
+    dependsOn(generateTargetConditionalsShim)
+}
+
